@@ -19,6 +19,15 @@ const login = async (req, res) => {
 }
 
 const dashboard = async (req, res) => {
+  const authHeaders = req.headers.auth
+
+  if (!authHeaders || !authHeaders.startsWith('Bearer ')) {
+    throw new CustomApiError('No token provided', 401)
+  }
+
+  const token = authHeaders.split(' ')[1]
+  console.log(token)
+
   const luckyNumber = Math.floor(Math.random() * 100)
   res.status(200).json({
     msg: 'Hello, John Doe',
